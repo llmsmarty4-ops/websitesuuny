@@ -1,0 +1,57 @@
+# Workspace
+
+## Overview
+
+pnpm workspace monorepo using TypeScript. CraKa OSINT Portal — a dark-themed intelligence aggregation platform.
+
+## Stack
+
+- **Monorepo tool**: pnpm workspaces
+- **Node.js version**: 24
+- **Package manager**: pnpm
+- **TypeScript version**: 5.9
+- **API framework**: Express 5
+- **Database**: PostgreSQL + Drizzle ORM
+- **Validation**: Zod (`zod/v4`), `drizzle-zod`
+- **API codegen**: Orval (from OpenAPI spec)
+- **Build**: esbuild (CJS bundle)
+- **Frontend**: React + Vite + Tailwind + wouter + TanStack Query
+- **Auth**: Admin auth via Bearer token (base64 username:password), stored in localStorage
+
+## Key Commands
+
+- `pnpm run typecheck` — full typecheck across all packages
+- `pnpm run build` — typecheck + build all packages
+- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
+- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `pnpm --filter @workspace/api-server run dev` — run API server locally
+
+## Project Structure
+
+- `artifacts/craka-osint/` — React + Vite frontend (dark terminal UI)
+  - Pages: Terminal (home), Logs, Stats, Tools, Admin Panel
+  - Auth state: `src/lib/auth.ts` (zustand + setAuthTokenGetter)
+- `artifacts/api-server/` — Express API backend
+  - `src/routes/osint.ts` — OSINT lookup, history, stats, APIs list
+  - `src/routes/admin.ts` — Admin auth, CRUD for APIs, cache clear
+- `lib/db/src/schema/osint.ts` — DB schema: osint_apis, osint_history, osint_cache
+
+## Features
+
+- 19 OSINT tools: Phone, Aadhaar, Vehicle RC, PAN, IFSC, UPI, Pincode, IP, Email, Telegram, Pakistan Number, Global Number, Free Fire, GSTIN, Domain WHOIS
+- Category filtering: Phone, Identity, Vehicle, Banking, Location, Network, Email, Social, Gaming
+- Result caching (30 min TTL)
+- Query history log
+- Admin panel: API management (CRUD), cache clear, full stats
+
+## Admin Credentials
+
+- Username: `admin`
+- Password: `craka@admin123`
+- (Configurable via ADMIN_USER / ADMIN_PASS environment variables)
+
+## Developer Credit
+
+`@DM_CRAKA_OWNER_BOT`
+
+See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
